@@ -8,9 +8,9 @@ endif
 
 let b:html_mode = 1
 
-function HtmlAttribCallback( xml_tag )
+function! HtmlAttribCallback( xml_tag )
   if a:xml_tag ==? "img"
-    return 'src="" width="0" height="0" alt=""''
+    return 'src="" width="0" height="0" alt=""'
   elseif a:xml_tag ==? "link"
     return 'href="/site.css" rel="stylesheet"'
   elseif a:xml_tag ==? "a"
