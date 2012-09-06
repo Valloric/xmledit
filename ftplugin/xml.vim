@@ -584,4 +584,8 @@ augroup xml
     au BufWritePre <buffer> call <SID>ClearJumpMarks()
 augroup END
 "}}}1
+
+runtime ftplugin/MatchTag.vim
+
 finish
+
