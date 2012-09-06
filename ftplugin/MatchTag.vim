@@ -44,21 +44,21 @@ fu! s:GetCurrentCursorTag()
 
     let c_col  = col('.')
     let matched = matchstr( getline('.'),
-          \ '\(<[^<>]*\%' . c_col . 'c.\{-}>\)\|\(\%' . c_col . 'c<.\{-}>\)' )
+          \ '\(<[^<>]*\%' . c_col . 'c\_.\{-}>\)\|\(\%' . c_col . 'c<\_.\{-}>\)' )
     if matched == "" || matched =~ '/>$'
         return ""
     endif
 
-    let tagname = matchstr(matched, '<\zs.\{-}\ze[ >]')
+    let tagname = matchstr(matched, '<\zs\_.\{-}\ze[ >]')
     return tagname
 endfu
 
 fu! s:SearchForMatchingTag(tagname, forwards)
     "returns the position of a matching tag or [0 0]
 
-    let starttag = '<' . a:tagname . '.\{-}/\@<!>'
+    let starttag = '<' . a:tagname . '\_.\{-}/\@<!>'
     let midtag = ''
-    let endtag = '</' . a:tagname . '.\{-}' . (a:forwards ? '' : '\zs' ) . '>'
+    let endtag = '</' . a:tagname . '\_.\{-}' . (a:forwards ? '' : '\zs' ) . '>'
     let flags = 'nW' . (a:forwards ? '' : 'b' )
 
     " When not in a string or comment ignore matches inside them.
@@ -84,9 +84,9 @@ fu! s:HighlightTagAtPosition(position)
     endif
 
     let [m_lnum, m_col] = a:position
-    exe '2match MatchParen /\(\%' . m_lnum . 'l\%' . m_col .  'c<\zs.\{-}\ze[ >]\)\|'
-                \ .'\(\%' . line('.') . 'l\%' . col('.') .  'c<\zs.\{-}\ze[ >]\)\|'
-                \ .'\(\%' . line('.') . 'l<\zs[^<> ]*\%' . col('.') . 'c.\{-}\ze[ >]\)\|'
-                \ .'\(\%' . line('.') . 'l<\zs[^<>]\{-}\ze\s[^<>]*\%' . col('.') . 'c.\{-}>\)/'
+    exe '2match MatchParen /\(\%' . m_lnum . 'l\%' . m_col .  'c<\zs\_.\{-}\ze[ >]\)\|'
+                \ .'\(\%' . line('.') . 'l\%' . col('.') .  'c<\zs\_.\{-}\ze[ >]\)\|'
+                \ .'\(\%' . line('.') . 'l<\zs[^<> ]*\%' . col('.') . 'c\_.\{-}\ze[ >]\)\|'
+                \ .'\(\%' . line('.') . 'l<\zs[^<>]\{-}\ze\s[^<>]*\%' . col('.') . 'c\_.\{-}>\)/'
     let w:tag_hl_on = 1
 endfu
